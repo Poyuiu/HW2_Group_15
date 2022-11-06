@@ -4,197 +4,201 @@ using UnityEngine;
 
 public class ManControl : MonoBehaviour
 {
-	// animator recover speed
-	public float animSpeed = 1.5f;
-	// a smoothing setting for camera motion
-	public float lookSmoother = 3.0f;
-	// for Mecanim Modification
-	public bool useCurves = true;
-	public float useCurvesHeight = 0.5f;
 
+    public float forwardSpeed = 5.0f;
+    public float backwardSpeed = 2.0f;
+    public float rotateSpeed = 2f;
+    public float jumpPower = 4.0f;
+    public float useCurveHeight = 0.3f;
 
-	public float forwardSpeed = 7.0f;
-	public float backwardSpeed = 2.0f;
-	public float rotateSpeed = 2.0f;
-	public float jumpPower = 3.0f;
-	
-	private CapsuleCollider col;
-#pragma warning disable IDE0052 // Remove unread private members
+    private Animator animator;
     private Rigidbody rb;
-#pragma warning restore IDE0052 // Remove unread private members
+    private CapsuleCollider col;
 
-    private Vector3 velocity;
-	
-	private float orgColHight;
-	private Vector3 orgVectColCenter;
-	private Animator anim;                         
-	private AnimatorStateInfo currentBaseState;
+    private int idleState;
+    private int locomotionState;
+    private int jumpState;
+    private int attackState;
+    private int walkState;
+    private int shootState;
 
-	private GameObject cameraObject;    // メインカメラへの参照
+    private bool lockMoving;
 
-	// アニメーター各ステートへの参照
-	static int idleState = Animator.StringToHash("Base Layer.Idle");
-	static int locoState = Animator.StringToHash("Base Layer.Locomotion");
-	static int jumpState = Animator.StringToHash("Base Layer.Jump");
-	static int restState = Animator.StringToHash("Base Layer.Rest");
+    private float origColliderHeight;
+    private Vector3 origColliderCenter;
 
-	// Start is called before the first frame update
-	void Start()
+    public float mouseSensitive = 0.2f;
+    public Transform manBody;
+    public CharacterController manController;
+    // Use this for initialization
+    void Start()
     {
-		anim = GetComponent<Animator>();
-		
-		col = GetComponent<CapsuleCollider>();
-		rb = GetComponent<Rigidbody>();
-		
-		cameraObject = GameObject.FindWithTag("MainCamera");
-		
-		orgColHight = col.height;
-		orgVectColCenter = col.center;
-	}
+        // Get component
+        animator = gameObject.GetComponent<Animator>();
+        rb = gameObject.GetComponent<Rigidbody>();
+        col = gameObject.GetComponent<CapsuleCollider>();
+        origColliderHeight = col.height;
+        origColliderCenter = col.center;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Get State Hash
+        idleState = Animator.StringToHash("Base Layer.WAIT00");
+        locomotionState = Animator.StringToHash("Base Layer.Locomotion");
+        jumpState = Animator.StringToHash("Base Layer.Jump00");
+        attackState = Animator.StringToHash("Base Layer.Attack");
+        walkState = Animator.StringToHash("Base Layer.Walk00_B");
+        shootState = Animator.StringToHash("Base Layer.Shoot");
     }
 
-    // motion of man
-    [System.Obsolete] // fixing BaseState
-    void FixedUpdate()
-	{
-		float h = Input.GetAxis("Horizontal");              // 入力デバイスの水平軸をhで定義
-		float v = Input.GetAxis("Vertical");                // 入力デバイスの垂直軸をvで定義
-		anim.SetFloat("Speed", v);                          // Animator側で設定している"Speed"パラメタにvを渡す
-		anim.SetFloat("Direction", h);                      // Animator側で設定している"Direction"パラメタにhを渡す
-		anim.speed = animSpeed;                             // Animatorのモーション再生速度に animSpeedを設定する
-		currentBaseState = anim.GetCurrentAnimatorStateInfo(0); // 参照用のステート変数にBase Layer (0)の現在のステートを設定する
-		rb.useGravity = true;//ジャンプ中に重力を切るので、それ以外は重力の影響を受けるようにする
+    private void Update()
+    {
+        ManTransformControl();
+        Anim();
+    }
 
+    void Anim()
+    {
+        // Get Animator State
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        lockMoving = false;
 
+        // Play animation
+        if (state.fullPathHash == locomotionState)
+        {
+            // If the character is moving, enable Jump
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // If not in the transition state
+                if (!animator.IsInTransition(0))
+                {
+                    // Enable Jump
+                    animator.SetBool("Jump", true);
+                    // Add jump force to the rigidbody
+                    rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+                }
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                animator.SetBool("Attack", true);
+            }
 
-		// 以下、キャラクターの移動処理
-		velocity = new Vector3(0, 0, v);        // 上下のキー入力からZ軸方向の移動量を取得
-												// キャラクターのローカル空間での方向に変換
-		velocity = transform.TransformDirection(velocity);
-		//以下のvの閾値は、Mecanim側のトランジションと一緒に調整する
-		if (v > 0.1)
-		{
-			velocity *= forwardSpeed;       // 移動速度を掛ける
-		}
-		else if (v < -0.1)
-		{
-			velocity *= backwardSpeed;  // 移動速度を掛ける
-		}
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetBool("Shoot", true);
+            }
+        }
+        else if (state.fullPathHash == jumpState)
+        {
+            // Disable Jump
+            animator.SetBool("Jump", false);
 
-		if (Input.GetButtonDown("Jump"))
-		{   // スペースキーを入力したら
+            // Adjust collider's position
+            this.AdjustCollider();
+        }
+        else if (state.fullPathHash == attackState)
+        {
+            animator.SetBool("Attack", false);
+            lockMoving = true;
+        }
+        else if (state.fullPathHash == idleState)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // If not in the transition state
+                if (!animator.IsInTransition(0))
+                {
+                    // Enable Jump
+                    animator.SetBool("Jump", true);
+                    // Add jump force to the rigidbody
+                    rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+                }
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                animator.SetBool("Attack", true);
+            }
 
-			//アニメーションのステートがLocomotionの最中のみジャンプできる
-			if (currentBaseState.nameHash == locoState)
-			{
-				//ステート遷移中でなかったらジャンプできる
-				if (!anim.IsInTransition(0))
-				{
-					rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
-					anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
-				}
-			}
-		}
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetBool("Shoot", true);
+            }
+        }
+        else if (state.fullPathHash == walkState)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // If not in the transition state
+                if (!animator.IsInTransition(0))
+                {
+                    // Enable Jump
+                    animator.SetBool("Jump", true);
+                    // Add jump force to the rigidbody
+                    rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+                }
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                animator.SetBool("Attack", true);
+            }
 
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetBool("Shoot", true);
+            }
+        }
+        else if (state.fullPathHash == shootState)
+        {
+            animator.SetBool("Shoot", false);
+        }
 
-		// 上下のキー入力でキャラクターを移動させる
-		transform.localPosition += velocity * Time.fixedDeltaTime;
+        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxis("Horizontal");
 
-		// 左右のキー入力でキャラクタをY軸で旋回させる
-		transform.Rotate(0, h * rotateSpeed, 0);
+        animator.SetFloat("Speed", v);
+        animator.SetFloat("Direction", h);
 
+    }
 
-		// 以下、Animatorの各ステート中での処理
-		// Locomotion中
-		// 現在のベースレイヤーがlocoStateの時
-		if (currentBaseState.nameHash == locoState)
-		{
-			//カーブでコライダ調整をしている時は、念のためにリセットする
-			if (useCurves)
-			{
-				resetCollider();
-			}
-		}
-		// JUMP中の処理
-		// 現在のベースレイヤーがjumpStateの時
-		else if (currentBaseState.nameHash == jumpState)
-		{
-			//cameraObject.SendMessage ("setCameraPositionJumpView");	// ジャンプ中のカメラに変更
-			// ステートがトランジション中でない場合
-			if (!anim.IsInTransition(0))
-			{
+    public void ManTransformControl()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-				// 以下、カーブ調整をする場合の処理
-				if (useCurves)
-				{
-					// 以下JUMP00アニメーションについているカーブJumpHeightとGravityControl
-					// JumpHeight:JUMP00でのジャンプの高さ（0〜1）
-					// GravityControl:1⇒ジャンプ中（重力無効）、0⇒重力有効
-					float jumpHeight = anim.GetFloat("JumpHeight");
-					float gravityControl = anim.GetFloat("GravityControl");
-					if (gravityControl > 0)
-						rb.useGravity = false;  //ジャンプ中の重力の影響を切る
+        Vector3 move = transform.right * x
+        + transform.forward * z;
 
-					// レイキャストをキャラクターのセンターから落とす
-					Ray ray = new Ray(transform.position + Vector3.up, -Vector3.up);
-					RaycastHit hitInfo = new RaycastHit();
-					// 高さが useCurvesHeight 以上ある時のみ、コライダーの高さと中心をJUMP00アニメーションについているカーブで調整する
-					if (Physics.Raycast(ray, out hitInfo))
-					{
-						if (hitInfo.distance > useCurvesHeight)
-						{
-							col.height = orgColHight - jumpHeight;          // 調整されたコライダーの高さ
-							float adjCenterY = orgVectColCenter.y + jumpHeight;
-							col.center = new Vector3(0, adjCenterY, 0); // 調整されたコライダーのセンター
-						}
-						else
-						{
-							// 閾値よりも低い時には初期値に戻す（念のため）					
-							resetCollider();
-						}
-					}
-				}
-				// Jump bool値をリセットする（ループしないようにする）				
-				anim.SetBool("Jump", false);
-			}
-		}
-		// IDLE中の処理
-		// 現在のベースレイヤーがidleStateの時
-		else if (currentBaseState.nameHash == idleState)
-		{
-			//カーブでコライダ調整をしている時は、念のためにリセットする
-			if (useCurves)
-			{
-				resetCollider();
-			}
-			// スペースキーを入力したらRest状態になる
-			if (Input.GetButtonDown("Jump"))
-			{
-				anim.SetBool("Rest", true);
-			}
-		}
-		// REST中の処理
-		// 現在のベースレイヤーがrestStateの時
-		else if (currentBaseState.nameHash == restState)
-		{
-			//cameraObject.SendMessage("setCameraPositionFrontView");		// カメラを正面に切り替える
-			// ステートが遷移中でない場合、Rest bool値をリセットする（ループしないようにする）
-			if (!anim.IsInTransition(0))
-			{
-				anim.SetBool("Rest", false);
-			}
-		}
-	}
+        manController.Move(forwardSpeed * Time.deltaTime * move);
 
-	void resetCollider()
-	{
-		// コンポーネントのHeight、Centerの初期値を戻す
-		col.height = orgColHight;
-		col.center = orgVectColCenter;
-	}
+        float mouseX = Input.GetAxis("Mouse X");
+        mouseX *= mouseSensitive;
+        manBody.Rotate(Vector3.up * mouseX);
+    }
+
+    public void AdjustCollider()
+    {
+        // Get Current Model Height
+        Ray ray = new Ray(gameObject.transform.position, -Vector3.up);
+        RaycastHit hitInfo = new RaycastHit();
+
+        // If the heights differ too much, adjust the collider height
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            if (hitInfo.distance > useCurveHeight)
+            {
+                float jumpHeight = animator.GetFloat("JumpHeight");
+                // Adjust collider's height during the jump state
+                // The height of the model will decrease due to the jump pose
+                col.height = origColliderHeight - jumpHeight;
+                // Adjust collider's center during the jump state
+                // The center of the collider will rise with the character
+                float adjCenterY = origColliderCenter.y + jumpHeight;
+                col.center = new Vector3(0, adjCenterY, 0);
+            }
+            else
+            {
+                col.height = origColliderHeight;
+                col.center = origColliderCenter;
+            }
+        }
+
+    }
 }
