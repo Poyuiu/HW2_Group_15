@@ -149,6 +149,7 @@ MonoBehaviour:
   bloodSplash: {fileID: 532804504}
   detectPlayerDistance: 20
   bowAnimator: {fileID: 718221684}
+  holdingArrow: {fileID: 797352462}
 --- !u!195 &101318659
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10136,6 +10137,11 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &797352462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
+  m_PrefabInstance: {fileID: 866098987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &866098987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10153,43 +10159,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.058683977
+      value: 0.75220495
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.015786804
+      value: -0.17400359
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.61544675
+      value: 0.081236266
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.020494914
+      value: -0.1635751
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.8657829
+      value: -0.60190266
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.49985996
+      value: 0.07351522
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.011832743
+      value: -0.7781722
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 161.861
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -106.168
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -10.065002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54b695eccb5c59849b82651e85e5b1b1, type: 3}
