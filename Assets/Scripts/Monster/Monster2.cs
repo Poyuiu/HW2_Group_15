@@ -6,9 +6,12 @@ public class Monster2 : Monster.Monster {
     public Animator bowAnimator;
     public GameObject holdingArrow;
     private float atkAnimationTime;
-    void Start() {
+    void Awake() {
         this.defaultStart();
         this.HP = 100;
+
+    }
+    void Start() {
 
     }
 

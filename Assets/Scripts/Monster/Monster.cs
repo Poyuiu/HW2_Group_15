@@ -63,5 +63,8 @@ namespace Monster {
                 this.isDestroy = true;
             }
         }
+        public int GetHP(){
+            return HP;
+        }
     }
 }
