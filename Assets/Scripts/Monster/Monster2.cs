@@ -27,7 +27,6 @@ public class Monster2 : Monster.Monster {
 	// Update is called once per frame
 	void Update() {
 		this.stateUpdate();
-        Vector3.Distance(this.player.transform.position,this.gameObject.transform.position);
 		if (this.isArrowHolding && !this.isSpawnArrow && this.isAtk) {
 			this.holdingArrow = Instantiate(this.Arrow, this.arrowTransform.position, this.arrowTransform.rotation, this.hand.transform);
 			this.holdingArrow.SetActive(true);
@@ -39,7 +38,7 @@ public class Monster2 : Monster.Monster {
 			arrowScript.isShooted = true;
 			arrowScript.faceToPlayer(this.player);
 			arrowScript.velocityInit();
-			Destroy(this.holdingArrow, 5f);
+			Destroy(this.holdingArrow, 8f);
 			this.isSpawnArrow = false;
 		}
 		if (this.isAtk) {

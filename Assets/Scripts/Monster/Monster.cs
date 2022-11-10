@@ -46,7 +46,6 @@ namespace Monster {
 			this.isMove = this.mNavigation.velocity.sqrMagnitude > 0.01;
 			this.isDie = this.HP <= 0;
 			this.isAtk = this.atkDistance >= this.mNavigation.remainingDistance;
-			// TODO: Fix isAtk bug. (isATK = false but in atk animation)
 			if (this.isAtk) {
 				this.isMove = false;
 				// Get attack animation state
