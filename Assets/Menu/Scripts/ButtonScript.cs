@@ -6,6 +6,8 @@ public class ButtonScript : MonoBehaviour
 {
 
     public GameObject HelpCanvas;
+    public AudioSource AS;
+    public AudioClip clickSound;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,11 @@ public class ButtonScript : MonoBehaviour
     }
 
     public void onStart() {
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Stage1");
+    }
 
+    public void playClickSound() {
+        AS.PlayOneShot(clickSound);
     }
 
 }
