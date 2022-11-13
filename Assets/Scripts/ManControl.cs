@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ParticleSystemJobs;
 
 public class ManControl : MonoBehaviour
 {
+    public ParticleSystem hurtEffect;
+    public ParticleSystem healEffect;
 
     public float forwardSpeed = 5.0f;
     public float backwardSpeed = 2.0f;
@@ -53,6 +56,18 @@ public class ManControl : MonoBehaviour
     {
         ManTransformControl();
         Anim();
+
+        // Demo
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            hurtEffect.Play();
+        }
+
+        // Demo
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            healEffect.Play();
+        }
     }
 
     void Anim()
@@ -200,6 +215,28 @@ public class ManControl : MonoBehaviour
             }
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("monster"))
+        {
+            hurtEffect.Play();
+        }
+
+        //TODO
+        // Update HP
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("cure"))
+        {
+            healEffect.Play();
+        }
+
+        // TODO
+        // Update HP
     }
 
 }
