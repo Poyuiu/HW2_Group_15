@@ -33,6 +33,7 @@ public class Monster2 : Monster.Monster {
             this.holdingArrow = Instantiate(this.Arrow, this.arrowTransform.position, this.arrowTransform.rotation, this.hand.transform);
             this.holdingArrow.SetActive(true);
             this.isSpawnArrow = true;
+            this.gameObject.transform.LookAt(this.player.gameObject.transform);
         }
         if (!this.isArrowHolding && this.isSpawnArrow) {
             this.holdingArrow.transform.SetParent(null, true);

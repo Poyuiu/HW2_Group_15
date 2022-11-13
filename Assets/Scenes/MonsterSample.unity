@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 124581147}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -569,6 +569,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 124581146}
+    - target: {fileID: 882721688174567393, guid: 48232e0840e625f4e98ff26eb727b1db, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 240
+      objectReference: {fileID: 0}
     - target: {fileID: 882721688174567395, guid: 48232e0840e625f4e98ff26eb727b1db, type: 3}
       propertyPath: m_Name
       value: monster3
