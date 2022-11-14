@@ -179,7 +179,7 @@ public class ManControl : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x
-        + transform.forward * z;
+        + transform.forward * z + transform.up * -9.81f;
 
         manController.Move(forwardSpeed * Time.deltaTime * move);
 
