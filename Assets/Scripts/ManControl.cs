@@ -5,6 +5,9 @@ using UnityEngine.ParticleSystemJobs;
 
 public class ManControl : MonoBehaviour
 {
+    public AudioSource audioPlayer;
+    public AudioClip hurtSE;
+
     public ParticleSystem hurtEffect;
     public ParticleSystem healEffect;
 
@@ -61,6 +64,8 @@ public class ManControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             hurtEffect.Play();
+
+            audioPlayer.PlayOneShot(hurtSE);
         }
 
         // Demo
@@ -222,6 +227,8 @@ public class ManControl : MonoBehaviour
         if (collision.gameObject.CompareTag("monster"))
         {
             hurtEffect.Play();
+
+            audioPlayer.PlayOneShot(hurtSE);
         }
 
         //TODO
