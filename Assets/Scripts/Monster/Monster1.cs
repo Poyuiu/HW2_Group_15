@@ -8,7 +8,7 @@ public class Monster1 : Monster.Monster {
     private float atkAnimationTime;
     private bool isPlayerGetDamage;
     void Awake() {
-        
+
         this.isPlayerGetDamage = false;
         this.HP = 100;
         this.defaultStart();
@@ -29,7 +29,7 @@ public class Monster1 : Monster.Monster {
     }
 
     void OnTriggerStay(Collider other) {
-        if (other.tag == "player" && this.isAtkToPlayer && !this.isPlayerGetDamage) {
+        if (other.tag == "Player" && this.isAtkToPlayer && !this.isPlayerGetDamage) {
             this.isPlayerGetDamage = true;
             // Player get damage
         }
