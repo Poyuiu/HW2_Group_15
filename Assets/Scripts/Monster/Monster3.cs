@@ -33,6 +33,7 @@ public class Monster3 : Monster.Monster {
                 iter.Stop();
         }
         if (this.isAtk) {
+            this.gameObject.transform.LookAt(this.player.transform);
             if (Time.time > this.castSkillTime + this.castInterval) {
                 this.castSkillTime = Time.time;
                 Physics.Raycast(this.player.transform.position + Vector3.up * 50, -Vector3.up, out findCastPostion, 100.0f, LayerMask.GetMask("ground"));

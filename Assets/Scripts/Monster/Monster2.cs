@@ -40,8 +40,8 @@ public class Monster2 : Monster.Monster {
             var arrowScript = this.holdingArrow.GetComponent<Arrow>();
             arrowScript.isShooted = true;
             arrowScript.faceToPlayer(this.player);
-            arrowScript.velocityInit();
-            Destroy(this.holdingArrow, 8f);
+            arrowScript.velocityInit(this.player);
+            Destroy(this.holdingArrow, 6f);
             this.isSpawnArrow = false;
         }
         if (this.isAtk) {
