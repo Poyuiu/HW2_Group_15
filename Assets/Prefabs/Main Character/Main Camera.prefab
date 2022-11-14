@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6640194517071360826}
   - component: {fileID: 6640194517071360825}
   - component: {fileID: 6640194517071360824}
-  - component: {fileID: 6640194517071360804}
   - component: {fileID: 6640194517071360827}
   - component: {fileID: 6640194517071360805}
   m_Layer: 0
@@ -87,19 +86,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6640194517071360831}
   m_Enabled: 1
---- !u!114 &6640194517071360804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6640194517071360831}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39fc9583793234acdb26d5c8d66e2a49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smooth: 3
 --- !u!124 &6640194517071360827
 Behaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +110,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
