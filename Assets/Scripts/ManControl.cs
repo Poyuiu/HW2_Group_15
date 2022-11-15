@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ParticleSystemJobs;
+using UnityEngine.SceneManagement;
 
 public class ManControl : MonoBehaviour
 {
+    private int HP;
+    private string currentSceneName;
+
+    public PlayerHPBar hpbar;
+
     public AudioSource audioPlayer;
     public AudioClip hurtSE;
 
@@ -38,6 +44,7 @@ public class ManControl : MonoBehaviour
     public float mouseSensitive = 0.2f;
     public Transform manBody;
     public CharacterController manController;
+
     // Use this for initialization
     void Start()
     {
@@ -58,12 +65,20 @@ public class ManControl : MonoBehaviour
         leftSideWalkState = Animator.StringToHash("Base Layer.LeftSideWalk");
         rightSideWalkState = Animator.StringToHash("Base Layer.RightSideWalk");
 
+
+        HP = 10;
+        hpbar.SetHealth(HP);
+
+        currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log(SceneManager.GetActiveScene().name);
     }
 
     private void Update()
     {
         ManTransformControl();
         Anim();
+        WastedCheck();
+        hpbar.SetHealth(HP);
 
         // Demo
         if (Input.GetKeyDown(KeyCode.C))
@@ -71,12 +86,17 @@ public class ManControl : MonoBehaviour
             hurtEffect.Play();
 
             audioPlayer.PlayOneShot(hurtSE);
+
+            HP -= 2;
+
         }
 
         // Demo
         if (Input.GetKeyDown(KeyCode.X))
         {
             healEffect.Play();
+            if (HP < 10)
+                HP += 1;
         }
     }
 
@@ -170,7 +190,7 @@ public class ManControl : MonoBehaviour
                 animator.SetBool("Shoot", true);
             }
         }
-        else if(state.fullPathHash == leftSideWalkState
+        else if (state.fullPathHash == leftSideWalkState
             || state.fullPathHash == rightSideWalkState)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -260,10 +280,9 @@ public class ManControl : MonoBehaviour
             hurtEffect.Play();
 
             audioPlayer.PlayOneShot(hurtSE);
-        }
 
-        //TODO
-        // Update HP
+            HP -= 2;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -271,10 +290,18 @@ public class ManControl : MonoBehaviour
         if (other.gameObject.CompareTag("cure"))
         {
             healEffect.Play();
-        }
 
-        // TODO
-        // Update HP
+            if (HP < 10)
+                HP += 1;
+        }
+    }
+
+    void WastedCheck()
+    {
+        if (HP <= 0)
+        {
+            SceneManager.LoadScene(currentSceneName);
+        }
     }
 
 }
