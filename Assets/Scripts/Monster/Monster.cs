@@ -8,6 +8,7 @@ namespace Monster {
         public ParticleSystem bloodSplash;
         public float detectPlayerDistance;
         public float atkDistance;
+        public AudioClip moveAudio;
 
         protected bool isMove;
         protected bool isAtk;
@@ -32,6 +33,7 @@ namespace Monster {
             this.mRigidbody = this.gameObject.GetComponent<Rigidbody>();
             this.mNavigation = this.gameObject.GetComponent<NavMeshAgent>();
             this.audioController = this.gameObject.GetComponent<AudioSource>();
+            this.audioController.volume = 0.7f;
             this.mNavigation.SetDestination(this.player.transform.position);
             this.mNavigation.isStopped = true;
         }
@@ -52,7 +54,15 @@ namespace Monster {
                 // Get attack animation state
                 this.mAnimatorState = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             }
-
+            if (this.isMove && !this.audioController.isPlaying) {
+                this.audioController.loop = true;
+                this.audioController.clip = this.moveAudio;
+                this.audioController.Play();
+            }
+            if (!this.isMove) {
+                this.audioController.loop = false;
+                this.audioController.Stop();
+            }
             this.mAnimator.SetBool("isMove", this.isMove);
             this.mAnimator.SetBool("isAtk", this.isAtk);
             this.mAnimator.SetBool("isDie", this.isDie);
