@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ManControl : MonoBehaviour
 {
+    public GameObject attackArea;
+
     private int HP;
     private string currentSceneName;
 
@@ -128,6 +130,7 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
         }
@@ -164,6 +167,7 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
         }
@@ -187,6 +191,7 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
         }
@@ -212,10 +217,12 @@ public class ManControl : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 animator.SetBool("Shoot", true);
+                attackArea.SetActive(true);
             }
         }
         else if (state.fullPathHash == shootState)
         {
+            attackArea.SetActive(false);
             animator.SetBool("Shoot", false);
         }
 
@@ -279,9 +286,9 @@ public class ManControl : MonoBehaviour
         {
             hurtEffect.Play();
 
-            audioPlayer.PlayOneShot(hurtSE);
+            // audioPlayer.PlayOneShot(hurtSE);
 
-            HP -= 2;
+            // HP -= 2;
         }
     }
 
