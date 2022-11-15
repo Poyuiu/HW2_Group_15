@@ -2839,11 +2839,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466745389807644292, guid: d8ad1efe7bd863140a1e4fc996d4ca1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8620706
+      value: -5.1620708
+      objectReference: {fileID: 0}
+    - target: {fileID: 4466745389807644292, guid: d8ad1efe7bd863140a1e4fc996d4ca1b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.8063252
       objectReference: {fileID: 0}
     - target: {fileID: 4466745389807644292, guid: d8ad1efe7bd863140a1e4fc996d4ca1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.824236
+      value: 11.324236
       objectReference: {fileID: 0}
     - target: {fileID: 4466745389807644292, guid: d8ad1efe7bd863140a1e4fc996d4ca1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3260,6 +3264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: unitychan
       objectReference: {fileID: 0}
+    - target: {fileID: 8834402334817453584, guid: 1336ed9ef34ca4d11bde05f303b6a9a8, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8834402334817453670, guid: 1336ed9ef34ca4d11bde05f303b6a9a8, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
@@ -3389,7 +3397,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1973471447}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.195709, y: 1.1274359, z: -0.39729112}
+  m_LocalPosition: {x: -5.09571, y: 1.6000202, z: 0.00000011772052}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -5,6 +5,9 @@ using UnityEngine.ParticleSystemJobs;
 
 public class ManControl : MonoBehaviour
 {
+    public AudioSource audioPlayer;
+    public AudioClip hurtSE;
+
     public ParticleSystem hurtEffect;
     public ParticleSystem healEffect;
 
@@ -24,6 +27,8 @@ public class ManControl : MonoBehaviour
     private int attackState;
     private int walkState;
     private int shootState;
+    private int leftSideWalkState;
+    private int rightSideWalkState;
 
     private bool lockMoving;
 
@@ -50,6 +55,9 @@ public class ManControl : MonoBehaviour
         attackState = Animator.StringToHash("Base Layer.Attack");
         walkState = Animator.StringToHash("Base Layer.Walk00_B");
         shootState = Animator.StringToHash("Base Layer.Shoot");
+        leftSideWalkState = Animator.StringToHash("Base Layer.LeftSideWalk");
+        rightSideWalkState = Animator.StringToHash("Base Layer.RightSideWalk");
+
     }
 
     private void Update()
@@ -61,6 +69,8 @@ public class ManControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             hurtEffect.Play();
+
+            audioPlayer.PlayOneShot(hurtSE);
         }
 
         // Demo
@@ -160,6 +170,30 @@ public class ManControl : MonoBehaviour
                 animator.SetBool("Shoot", true);
             }
         }
+        else if(state.fullPathHash == leftSideWalkState
+            || state.fullPathHash == rightSideWalkState)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // If not in the transition state
+                if (!animator.IsInTransition(0))
+                {
+                    // Enable Jump
+                    animator.SetBool("Jump", true);
+                    // Add jump force to the rigidbody
+                    rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+                }
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                animator.SetBool("Attack", true);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetBool("Shoot", true);
+            }
+        }
         else if (state.fullPathHash == shootState)
         {
             animator.SetBool("Shoot", false);
@@ -169,6 +203,8 @@ public class ManControl : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
 
         animator.SetFloat("Speed", v);
+
+        // Use "Direction" to set as side walk
         animator.SetFloat("Direction", h);
 
     }
@@ -222,6 +258,8 @@ public class ManControl : MonoBehaviour
         if (collision.gameObject.CompareTag("monster"))
         {
             hurtEffect.Play();
+
+            audioPlayer.PlayOneShot(hurtSE);
         }
 
         //TODO
