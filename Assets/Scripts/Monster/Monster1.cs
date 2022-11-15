@@ -10,7 +10,7 @@ public class Monster1 : Monster.Monster {
     void Awake() {
 
         this.isPlayerGetDamage = false;
-        this.HP = 100;
+        this.HP = 50;
         this.defaultStart();
     }
     void Start() {
