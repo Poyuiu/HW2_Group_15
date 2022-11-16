@@ -47,7 +47,15 @@ public class Monster2 : Monster.Monster {
         if (this.isAtk) {
             this.atkAnimationTime = this.mAnimatorState.normalizedTime % 1;
             this.bowAnimator.SetBool("isAtk", this.atkAnimationTime > 0.64);
-
+            if (this.atkAnimationTime > 0.64 && !this.audioController.isPlaying) {
+                this.audioController.clip = this.bowPullAudio;
+                this.audioController.Play();
+            }
+            if (this.atkAnimationTime > 0.98) {
+                this.audioController.Stop();
+                this.audioController.clip = this.arrowShootAudio;
+                this.audioController.Play();
+            }
         } else
             this.bowAnimator.SetBool("isAtk", false);
 
