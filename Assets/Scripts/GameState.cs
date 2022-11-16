@@ -16,6 +16,7 @@ public class GameState : MonoBehaviour
     void Start()
     {
         Object.DontDestroyOnLoad(this);
+        Cursor.visible = false;
     }
 
     public void Initialize(int maxHP) {
