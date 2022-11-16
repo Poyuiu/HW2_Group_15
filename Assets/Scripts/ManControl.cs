@@ -15,6 +15,8 @@ public class ManControl : MonoBehaviour
 
     public AudioSource audioPlayer;
     public AudioClip hurtSE;
+    public AudioSource audioPlayer2;
+    public AudioClip attackSE;
 
     public ParticleSystem hurtEffect;
     public ParticleSystem healEffect;
@@ -135,6 +137,8 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (!audioPlayer2.isPlaying)
+                    audioPlayer2.PlayOneShot(attackSE);
                 attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
@@ -172,6 +176,8 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (!audioPlayer2.isPlaying)
+                    audioPlayer2.PlayOneShot(attackSE);
                 attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
@@ -196,6 +202,8 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (!audioPlayer2.isPlaying)
+                    audioPlayer2.PlayOneShot(attackSE);
                 attackArea.SetActive(true);
                 animator.SetBool("Shoot", true);
             }
@@ -221,6 +229,8 @@ public class ManControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (!audioPlayer2.isPlaying)
+                    audioPlayer2.PlayOneShot(attackSE);
                 animator.SetBool("Shoot", true);
                 attackArea.SetActive(true);
             }
@@ -313,8 +323,9 @@ public class ManControl : MonoBehaviour
     public void AttackByMonster(int damage)
     {
         hurtEffect.Play();
-
-        audioPlayer.PlayOneShot(hurtSE);
+        
+        if (!audioPlayer.isPlaying)
+            audioPlayer.PlayOneShot(hurtSE);
 
         gameState.playerHP -= damage;
     }

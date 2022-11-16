@@ -59,7 +59,7 @@ namespace Monster {
                 this.audioController.clip = this.moveAudio;
                 this.audioController.Play();
             }
-            if (!this.isMove && this.audioController.clip.name == this.moveAudio.name) {
+            if (!this.isMove && this.audioController.clip && this.audioController.clip.name == this.moveAudio.name) {
                 this.audioController.loop = false;
                 this.audioController.Stop();
             }
