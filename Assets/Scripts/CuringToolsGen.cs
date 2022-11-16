@@ -18,7 +18,7 @@ public class CuringToolsGen : MonoBehaviour
             float x = chan.transform.position.x;
             float z = chan.transform.position.z;
             Vector3 rdPosition =
-                new(Random.Range(-5, 6) + x, 0, Random.Range(-5, 6) + z);
+                new(Random.Range(-3, 4) + x, 0, Random.Range(-3, 4) + z);
             Instantiate(curePrefab, rdPosition, Quaternion.identity);
         }
 
