@@ -19,7 +19,7 @@ public class Monster2 : Monster.Monster {
     private bool isSpawnArrow;
     void Awake() {
         this.defaultStart();
-        this.HP = 10;
+        this.HP = 20;
     }
     void Start() {
         this.isArrowHolding = false;

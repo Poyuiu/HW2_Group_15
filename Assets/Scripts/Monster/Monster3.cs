@@ -15,7 +15,7 @@ public class Monster3 : Monster.Monster {
     private RaycastHit findCastPostion;
     void Awake() {
         this.defaultStart();
-        this.HP = 10;
+        this.HP = 100;
     }
     // Start is called before the first frame update
     void Start() {
