@@ -59,7 +59,7 @@ namespace Monster {
                 this.audioController.clip = this.moveAudio;
                 this.audioController.Play();
             }
-            if (!this.isMove && this.audioController.clip.name == this.moveAudio.name) {
+            if (!this.isMove && this.audioController.clip && this.audioController.clip.name == this.moveAudio.name) {
                 this.audioController.loop = false;
                 this.audioController.Stop();
             }
@@ -69,7 +69,8 @@ namespace Monster {
             if (this.isDie) {
                 this.isMove = false;
                 this.isAtk = false;
-                GameObject bar = GameObject.Find("Health Bar");
+                string name = this.name;
+                GameObject bar = GameObject.Find(name+"/Health Bar");
                 if (bar) bar.SetActive(false);
                 if (!this.isDestroy)
                     Destroy(this.gameObject, 3f);

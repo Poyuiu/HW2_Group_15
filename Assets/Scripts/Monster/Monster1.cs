@@ -45,8 +45,9 @@ public class Monster1 : Monster.Monster {
         if (other.tag == "Player" && this.isAtkToPlayer && !this.isPlayerGetDamage) {
             this.isPlayerGetDamage = true;
             // Player get damage
-            if (other.gameObject.TryGetComponent<ManControl>(out ManControl mc)) {
-                mc.AttackByMonster();
+            if(other.gameObject.TryGetComponent<ManControl>(out ManControl mc))
+            {
+                mc.AttackByMonster(100);
             }
         }
     }

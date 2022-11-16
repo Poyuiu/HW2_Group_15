@@ -47,7 +47,7 @@ public class Monster3 : Monster.Monster {
                 Instantiate(this.castSkillPrefab, this.findCastPostion.point, Quaternion.Euler(Vector3.zero));
             }
         }
-        if (!this.isAtk && this.audioController.clip.name == this.castingAudio.name)
+        if (!this.isAtk && this.audioController.clip && this.audioController.clip.name == this.castingAudio.name)
             this.audioController.Stop();
     }
 }
