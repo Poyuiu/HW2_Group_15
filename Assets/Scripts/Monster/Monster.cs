@@ -76,7 +76,8 @@ namespace Monster
             {
                 this.isMove = false;
                 this.isAtk = false;
-                GameObject bar = GameObject.Find("Health Bar");
+                string name = this.name;
+                GameObject bar = GameObject.Find(name+"/Health Bar");
                 if (bar) bar.SetActive(false);
                 if (!this.isDestroy)
                     Destroy(this.gameObject, 3f);

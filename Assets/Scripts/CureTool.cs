@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CureTool : MonoBehaviour
 {
-    public float TimetoLive = 5f;
+    public float TimetoLive = 20f;
     private void Update()
     {
         Destroy(gameObject, TimetoLive);

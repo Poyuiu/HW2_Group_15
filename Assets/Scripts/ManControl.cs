@@ -8,7 +8,7 @@ public class ManControl : MonoBehaviour
 {
     public GameObject attackArea;
 
-    private int HP;
+    private int maxHP;
     private string currentSceneName;
 
     public PlayerHPBar hpbar;
@@ -47,6 +47,8 @@ public class ManControl : MonoBehaviour
     public Transform manBody;
     public CharacterController manController;
 
+    private GameState gameState;
+
     // Use this for initialization
     void Start()
     {
@@ -67,9 +69,12 @@ public class ManControl : MonoBehaviour
         leftSideWalkState = Animator.StringToHash("Base Layer.LeftSideWalk");
         rightSideWalkState = Animator.StringToHash("Base Layer.RightSideWalk");
 
-
-        HP = 10;
-        hpbar.SetHealth(HP);
+        gameState = GameObject.Find("/GameState").GetComponent<GameState>();
+        
+        maxHP = 1000;
+        gameState.Initialize(maxHP);
+        hpbar.SetMaxHealth(maxHP);
+        hpbar.SetHealth(gameState.playerHP);
 
         currentSceneName = SceneManager.GetActiveScene().name;
         Debug.Log(SceneManager.GetActiveScene().name);
@@ -80,7 +85,7 @@ public class ManControl : MonoBehaviour
         ManTransformControl();
         Anim();
         WastedCheck();
-        hpbar.SetHealth(HP);
+        hpbar.SetHealth(gameState.playerHP);
 
         // Demo
         if (Input.GetKeyDown(KeyCode.C))
@@ -89,7 +94,7 @@ public class ManControl : MonoBehaviour
 
             audioPlayer.PlayOneShot(hurtSE);
 
-            HP -= 2;
+            gameState.playerHP -= 2;
 
         }
 
@@ -97,8 +102,8 @@ public class ManControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             healEffect.Play();
-            if (HP < 10)
-                HP += 1;
+            if (gameState.playerHP < 10)
+                gameState.playerHP += 1;
         }
     }
 
@@ -285,44 +290,33 @@ public class ManControl : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("monster"))
-        {
-            hurtEffect.Play();
-
-            // audioPlayer.PlayOneShot(hurtSE);
-
-            // HP -= 2;
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("cure"))
         {
             healEffect.Play();
 
-            if (HP < 10)
-                HP += 1;
+            if (gameState.playerHP < maxHP)
+                gameState.playerHP += 100;
         }
     }
 
     void WastedCheck()
     {
-        if (HP <= 0)
-        {
+        if (gameState.playerHP <= 0)
+        {   
+            gameState.restart(maxHP);
             SceneManager.LoadScene(currentSceneName);
         }
     }
 
-    public void AttackByMonster()
+    public void AttackByMonster(int damage)
     {
         hurtEffect.Play();
 
         audioPlayer.PlayOneShot(hurtSE);
 
-        HP -= 2;
+        gameState.playerHP -= damage;
     }
 
 }

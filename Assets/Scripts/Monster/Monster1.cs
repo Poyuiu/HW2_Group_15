@@ -34,7 +34,7 @@ public class Monster1 : Monster.Monster {
             // Player get damage
             if(other.gameObject.TryGetComponent<ManControl>(out ManControl mc))
             {
-                mc.AttackByMonster();
+                mc.AttackByMonster(100);
             }
         }
     }

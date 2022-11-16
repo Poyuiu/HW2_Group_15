@@ -6,19 +6,21 @@ public class CuringToolsGen : MonoBehaviour
 {
     public GameObject curePrefab;
     private int prefabCount;
-    public GameObject chan;
+    private GameObject chan;
     private void Start()
     {
         prefabCount = 0;
+        chan = GameObject.FindGameObjectWithTag("Player");
     }
     private void Update()
     {
-        if (prefabCount < 10)
+        if (prefabCount < 1)
         {
             float x = chan.transform.position.x;
+            float y = chan.transform.position.y;
             float z = chan.transform.position.z;
             Vector3 rdPosition =
-                new(Random.Range(-3, 4) + x, 0, Random.Range(-3, 4) + z);
+                new(Random.Range(-3, 4) + x, y, Random.Range(-3, 4) + z);
             Instantiate(curePrefab, rdPosition, Quaternion.identity);
         }
 

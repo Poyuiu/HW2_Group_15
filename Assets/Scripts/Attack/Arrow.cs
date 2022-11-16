@@ -24,7 +24,7 @@ public class Arrow : MonoBehaviour {
     void Update() {
         if (this.isPlayerGetDamage && this.mRigid.velocity.sqrMagnitude < 0.01f)
             this.mRigid.constraints = RigidbodyConstraints.FreezeAll;
-        if (this.gameObject.transform.parent.tag == "Player")
+        if (this.gameObject.transform.parent && this.gameObject.transform.parent.tag == "Player")
             this.gameObject.transform.localPosition = Vector3.up * 0.7f;
     }
     void OnTriggerEnter(Collider other) {
@@ -35,9 +35,13 @@ public class Arrow : MonoBehaviour {
             this.gameObject.transform.SetParent(other.gameObject.transform, true);
 
             // Player get damage
+            if (other.gameObject.TryGetComponent<ManControl>(out ManControl player))
+            {
+                player.AttackByMonster(50);
+            }
+            this.isPlayerGetDamage = true;
+            this.mRigid.drag = 20f;
         }
-        this.isPlayerGetDamage = true;
-        this.mRigid.drag = 20f;
 
     }
 }

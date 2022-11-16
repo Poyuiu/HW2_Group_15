@@ -42,8 +42,13 @@ public class cast : MonoBehaviour {
     }
     void OnTriggerStay(Collider other) {
         if (this.isAtkDetect) {
-            this.isAtkDetect = false;
-            // Player get damage
+            if (other.tag == "Player") {
+                this.isAtkDetect = false;
+                if (other.gameObject.TryGetComponent<ManControl>(out ManControl player))
+                {
+                    player.AttackByMonster(1);
+                }
+            }
         }
     }
 }
