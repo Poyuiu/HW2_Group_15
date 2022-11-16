@@ -311,4 +311,13 @@ public class ManControl : MonoBehaviour
         }
     }
 
+    public void AttackByMonster()
+    {
+        hurtEffect.Play();
+
+        audioPlayer.PlayOneShot(hurtSE);
+
+        HP -= 2;
+    }
+
 }
