@@ -5081,7 +5081,7 @@ MonoBehaviour:
   bloodSplash: {fileID: 3039612074155863707}
   detectPlayerDistance: 20
   atkDistance: 8
-  moveAudio: {fileID: 0}
+  moveAudio: {fileID: 8300000, guid: fc2931240e542bb4ea638fad93a875ca, type: 3}
   bowAnimator: {fileID: 3039612075314155253}
   Arrow: {fileID: 9145495642837366061, guid: 8ef318a6e5677cd4395d1d1409f24b98, type: 3}
   hand: {fileID: 3039612075275626454}
