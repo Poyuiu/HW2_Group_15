@@ -13,12 +13,13 @@ public class cast : MonoBehaviour {
     private Light magicCircle;
     private Vector3 magicCircleRotate = new Vector3(0f, 0f, 1.5f);
     private float spawnTime;
-
+    private AudioSource audioController;
     private bool isBurst = false;
     private bool isAtkDetect = false;
     void Start() {
         this.magicCircle = this.magicCircleObject.GetComponent<Light>();
         this.spawnTime = Time.time;
+        this.audioController = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +27,8 @@ public class cast : MonoBehaviour {
         if (Time.time - this.spawnTime > this.burstDelay && !this.isBurst) {
             this.burstParticle.Play();
             this.isBurst = true;
+            if (!this.audioController.isPlaying)
+                this.audioController.Play();
         }
         if (Time.time - this.spawnTime > this.burstDelay + 0.1f)
             this.isAtkDetect = true;
