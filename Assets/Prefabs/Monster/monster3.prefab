@@ -19423,6 +19423,7 @@ MonoBehaviour:
   moveAudio: {fileID: 8300000, guid: fc2931240e542bb4ea638fad93a875ca, type: 3}
   staffEffect: {fileID: 36423947744173581}
   castSkillPrefab: {fileID: 7389890447198820667, guid: fa81678f64ea0f14586f67c2df20b180, type: 3}
+  castingAudio: {fileID: 8300000, guid: cda3972c99f22ab46b6f281e18b5aaf3, type: 3}
 --- !u!195 &882721688174567393
 NavMeshAgent:
   m_ObjectHideFlags: 0

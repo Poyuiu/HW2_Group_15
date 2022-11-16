@@ -5160,7 +5160,8 @@ MonoBehaviour:
   bloodSplash: {fileID: 2310889092837491084}
   detectPlayerDistance: 8
   atkDistance: 1.5
-  moveAudio: {fileID: 0}
+  moveAudio: {fileID: 8300000, guid: fc2931240e542bb4ea638fad93a875ca, type: 3}
+  atkAudio: {fileID: 8300000, guid: 22eab4df0bfb76b439118c30d20e43b9, type: 3}
 --- !u!195 &2310889092255078601
 NavMeshAgent:
   m_ObjectHideFlags: 0

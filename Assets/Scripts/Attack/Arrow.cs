@@ -7,6 +7,7 @@ public class Arrow : MonoBehaviour {
     public bool isShooted { get; set; }
     private Rigidbody mRigid;
     private bool isPlayerGetDamage;
+    private AudioSource audioController;
     public void faceToPlayer(GameObject player) => this.gameObject.transform.LookAt(player.transform);
     public void velocityInit(GameObject player) {
         this.mRigid.constraints = RigidbodyConstraints.None;
@@ -18,6 +19,7 @@ public class Arrow : MonoBehaviour {
         this.isShooted = false;
         this.isPlayerGetDamage = false;
         this.mRigid = this.gameObject.GetComponent<Rigidbody>();
+        this.audioController = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class Arrow : MonoBehaviour {
             return;
 
         if (other.tag == "Player" && !this.isPlayerGetDamage) {
+            this.audioController.Play();
             this.gameObject.transform.SetParent(other.gameObject.transform, true);
 
             // Player get damage
