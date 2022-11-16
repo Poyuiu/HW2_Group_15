@@ -38,8 +38,17 @@ public class GameState : MonoBehaviour
             if (countDown <= 0)
             {
                 int curScene = SceneManager.GetActiveScene().buildIndex;
+                int nextScene = (curScene + 1) % 4;
                 clear = false;
-                SceneManager.LoadScene((curScene+1)%4);
+                if (nextScene == 0)
+                {
+                    SceneManager.LoadSceneAsync(nextScene);
+                    Cursor.visible = true;
+                    //Destroy(GameObject.Find("GameState"));
+                    Destroy(this.gameObject);
+                }
+                else
+                    SceneManager.LoadScene(nextScene);
             } else
             {
                 countDown -= Time.deltaTime;
