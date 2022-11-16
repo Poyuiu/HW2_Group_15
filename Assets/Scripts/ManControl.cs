@@ -241,6 +241,11 @@ public class ManControl : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        if (z < 0f)
+        {
+            z /= 4f;
+        }
+
         Vector3 move = transform.right * x
         + transform.forward * z + transform.up * -9.81f;
 
@@ -309,6 +314,15 @@ public class ManControl : MonoBehaviour
         {
             SceneManager.LoadScene(currentSceneName);
         }
+    }
+
+    public void AttackByMonster()
+    {
+        hurtEffect.Play();
+
+        audioPlayer.PlayOneShot(hurtSE);
+
+        HP -= 2;
     }
 
 }
